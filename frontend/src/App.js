@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { getApiUrl } from './config/api';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -23,7 +24,7 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const response = await fetch('/api/auth/me', {
+        const response = await fetch(getApiUrl('/api/auth/me'), {
           headers: {
             'Authorization': `Bearer ${token}`
           }

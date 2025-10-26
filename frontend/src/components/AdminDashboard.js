@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../config/api';
 
 function AdminDashboard() {
   const [stats, setStats] = useState(null);
@@ -15,7 +16,7 @@ function AdminDashboard() {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/admin/stats', {
+      const response = await fetch(getApiUrl('/api/admin/stats'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -41,7 +42,7 @@ function AdminDashboard() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/admin/entries/${entryId}`, {
+      const response = await fetch(getApiUrl(`/api/admin/entries/${entryId}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

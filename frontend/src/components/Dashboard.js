@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { getApiUrl } from '../config/api';
 
 function Dashboard() {
   const [entries, setEntries] = useState([]);
@@ -14,7 +15,7 @@ function Dashboard() {
   const fetchEntries = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/entries', {
+      const response = await fetch(getApiUrl('/api/entries'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -40,7 +41,7 @@ function Dashboard() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/entries/${id}`, {
+      const response = await fetch(getApiUrl(`/api/entries/${id}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../config/api';
 
 function Search() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,7 +29,7 @@ function Search() {
       if (searchQuery.trim()) params.append('q', searchQuery);
       if (searchTags.trim()) params.append('tags', searchTags);
 
-      const response = await fetch(`/api/entries/search?${params.toString()}`, {
+      const response = await fetch(getApiUrl(`/api/entries/search?${params.toString()}`), {
         headers: {
           'Authorization': `Bearer ${token}`
         }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import SimpleMDE from 'react-simplemde-editor';
+import { getApiUrl } from '../config/api';
 import 'easymde/dist/easymde.min.css';
 
 function EntryForm() {
@@ -21,7 +22,7 @@ function EntryForm() {
   const fetchEntry = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/entries/${id}`, {
+      const response = await fetch(getApiUrl(`/api/entries/${id}`), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -110,7 +111,7 @@ function EntryForm() {
 
     try {
       const token = localStorage.getItem('token');
-      const url = isEdit ? `/api/entries/${id}` : '/api/entries';
+      const url = isEdit ? getApiUrl(`/api/entries/${id}`) : getApiUrl('/api/entries');
       const method = isEdit ? 'PUT' : 'POST';
 
       const response = await fetch(url, {

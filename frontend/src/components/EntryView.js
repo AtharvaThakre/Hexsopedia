@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { getApiUrl } from '../config/api';
 
 function EntryView() {
   const [entry, setEntry] = useState(null);
@@ -13,7 +14,7 @@ function EntryView() {
   const fetchEntry = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/entries/${id}`, {
+      const response = await fetch(getApiUrl(`/api/entries/${id}`), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -43,7 +44,7 @@ function EntryView() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/entries/${id}`, {
+      const response = await fetch(getApiUrl(`/api/entries/${id}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
