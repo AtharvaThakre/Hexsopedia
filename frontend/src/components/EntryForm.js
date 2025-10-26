@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
@@ -18,13 +18,7 @@ function EntryForm() {
   const { id } = useParams();
   const isEdit = !!id;
 
-  useEffect(() => {
-    if (isEdit && !initialLoadDone) {
-      fetchEntry();
-    }
-  }, [id, isEdit, initialLoadDone]);
-
-  const fetchEntry = async () => {
+  const fetchEntry = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/entries/${id}`, {
@@ -49,7 +43,13 @@ function EntryForm() {
       setError(err.message);
       setInitialLoadDone(true);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (isEdit && !initialLoadDone) {
+      fetchEntry();
+    }
+  }, [isEdit, initialLoadDone, fetchEntry]);
 
   // Memoize SimpleMDE options to prevent re-renders
   const editorOptions = useMemo(() => ({

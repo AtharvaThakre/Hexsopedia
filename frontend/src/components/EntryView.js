@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -10,11 +10,7 @@ function EntryView() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchEntry();
-  }, [id]);
-
-  const fetchEntry = async () => {
+  const fetchEntry = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/entries/${id}`, {
@@ -34,7 +30,11 @@ function EntryView() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchEntry();
+  }, [fetchEntry]);
 
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this entry?')) {
