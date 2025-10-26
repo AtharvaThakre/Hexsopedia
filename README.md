@@ -1,7 +1,7 @@
 # Hexsopedia - Personal Knowledge Management System
 
-Deployment Link
-https://codebreakers-landingpage.vercel.app/
+Deployment Link :
+  https://hexsopedia.vercel.app/login
 
 A full-stack Wikipedia-style web application for creating, organizing, and searching personal knowledge entries with Markdown support, authentication, and an admin dashboard.
 
