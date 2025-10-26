@@ -11,7 +11,12 @@ const app = express();
 // Middleware
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL, 'https://hexsopedia.vercel.app']
+    ? [
+        process.env.FRONTEND_URL, 
+        'https://hexsopedia.vercel.app',
+        'https://hexsopedia-atharvathakres-projects.vercel.app',
+        /\.vercel\.app$/  // Allow all Vercel preview deployments
+      ]
     : ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
