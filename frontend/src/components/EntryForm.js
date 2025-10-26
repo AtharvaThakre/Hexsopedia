@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
@@ -13,15 +13,16 @@ function EntryForm() {
   const [tagInput, setTagInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [initialLoadDone, setInitialLoadDone] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = !!id;
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && !initialLoadDone) {
       fetchEntry();
     }
-  }, [id]);
+  }, [id, isEdit, initialLoadDone]);
 
   const fetchEntry = async () => {
     try {
@@ -43,10 +44,24 @@ function EntryForm() {
         tags: entry.tags || [],
         isPublic: entry.isPublic || false
       });
+      setInitialLoadDone(true);
     } catch (err) {
       setError(err.message);
+      setInitialLoadDone(true);
     }
   };
+
+  // Memoize SimpleMDE options to prevent re-renders
+  const editorOptions = useMemo(() => ({
+    spellChecker: false,
+    placeholder: "Write your content in Markdown...",
+    toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", "guide"],
+    autosave: {
+      enabled: true,
+      uniqueId: id || 'new-entry',
+      delay: 1000,
+    }
+  }), [id]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -143,11 +158,7 @@ function EntryForm() {
             <SimpleMDE
               value={formData.content}
               onChange={handleContentChange}
-              options={{
-                spellChecker: false,
-                placeholder: "Write your content in Markdown...",
-                toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
-              }}
+              options={editorOptions}
             />
           </div>
 

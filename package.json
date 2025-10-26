@@ -1,0 +1,16 @@
+{
+  "name": "hexsopedia",
+  "version": "1.0.0",
+  "description": "Personal Knowledge Management System",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev-backend": "cd backend && npm run dev",
+    "dev-frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "vercel-build": "cd frontend && npm install && npm run build"
+  },
+  "keywords": ["wiki", "knowledge-base", "markdown"],
+  "author": "",
+  "license": "ISC"
+}
